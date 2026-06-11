@@ -1,20 +1,8 @@
-import { useState, useEffect } from 'react';
-import type { Usuario } from '../services/usuarioService';
-import usuarioService from '../services/usuarioService';
+import usuarioService, { type Usuario } from '../services/usuarioService';
+import { useFetch, type StateData } from './useFetch';
 
-
-const useFetchCurrentUser = (): Usuario | null => {
-
-    const [user, setUser] = useState<Usuario | null>(null);
-
-    const fetchItens = async () => {
-        const data = await usuarioService.getById(1);
-        setUser(data);
-    };
-
-    useEffect(() => { fetchItens(); }, []);
-
-    return user || null;
+const useFetchCurrentUser = (): StateData<Usuario> => {
+    return useFetch(() => usuarioService.getById(1));
 };
 
 export default useFetchCurrentUser;

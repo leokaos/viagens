@@ -15,9 +15,7 @@ class ViagemService:
         return ViagemSchema.model_validate(db_viagem)
 
     def list_viagens(self, filtros: dict[str, str]) -> list[ViagemSchema]:
-
         db_viagens = self.repository.get_all(filtros, options=[selectinload(ViagemModel.destinos)])
-
         return [ViagemSchema.model_validate(v) for v in db_viagens]
 
     def get_viagem(self, viagem_id: int) -> ViagemSchema:

@@ -1,6 +1,4 @@
 from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
-
 from app.core.postgres import get_session
 from app.repository.usuario_repository import UsuarioRepository
 from app.services.usuario_service import UsuarioService

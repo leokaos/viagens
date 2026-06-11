@@ -1,0 +1,30 @@
+.loadingContainer {
+    perspective: 1200px;
+}
+
+.wrapper3d {
+    transform-style: preserve-3d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.animateSpin3dZ {
+    animation: spin3dZ 4s infinite linear;
+}
+
+@keyframes spin3dZ {
+    0% {
+        transform: translateZ(0) rotateX(20deg) rotateZ(0deg);
+        animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    }
+
+    50% {
+        transform: translateZ(100px) rotateX(160deg) rotateZ(180deg);
+        animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+
+    100% {
+        transform: translateZ(0) rotateX(20deg) rotateZ(360deg);
+    }
+}

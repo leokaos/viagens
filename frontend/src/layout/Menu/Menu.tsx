@@ -1,17 +1,13 @@
 import { Avatar } from "primereact/avatar"
 import { Button } from "primereact/button"
-import useFetchItemMenu from "../../hooks/useFetchItemMenu";
 import { Link, useLocation } from "react-router-dom";
 import { useContextUser } from "../../context/UserContext";
+import type { ItemMenu } from "../../services/itemMenuService";
 
-const Menu = () => {
+const Menu = ({ itens }: { itens: ItemMenu[] }) => {
 
-    const { itens, loading, error } = useFetchItemMenu();
     const location = useLocation();
     const user = useContextUser();
-
-    if (loading) return <p>Carregando...</p>;
-    if (error) return <p>Erro: {error}</p>;
 
     const cssDefault = 'p-button-text w-full justify-content-start'
     const cssCurrentItem = `${cssDefault} bg-[#d7e2ff] text-[#001945] rounded-xl font-bold'`
@@ -19,7 +15,6 @@ const Menu = () => {
 
     return (
         <>
-
             <div className="p-6">
                 <h1 className="text-2xl font-bold text-[#2563eb]">Viagens do Léo</h1>
             </div>

@@ -1,4 +1,3 @@
-# app/api/tag_api.py
 from fastapi import APIRouter, HTTPException, Depends
 from app.core.exceptions import EntityNotFoundError
 from app.schemas.tag_schema import TagSchema

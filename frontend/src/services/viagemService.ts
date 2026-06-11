@@ -1,11 +1,16 @@
 import { BaseService } from "./baseService";
+import type { Gasto } from "./gastoService";
 
 export interface Viagem {
     id: number;
     data_inicio: Date;
     data_fim: Date;
     orcamento: number;
+    descricao: string;
     observacao: string;
+    status: 'PLANNING' | 'CONFIRMED' | 'ONGOING' | 'CANCELLED';
+    gastos: Gasto[]
+    imagem: string;
 }
 
 class ViagemService extends BaseService<Viagem> {

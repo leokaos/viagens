@@ -1,8 +1,11 @@
+from typing import Optional, Any
+
 from sqlalchemy.orm import Session
-from sqlalchemy import select
+from sqlalchemy import select, Select
 
 
 class BaseRepository:
+
     def __init__(self, session: Session, model):
         self.session = session
         self.model = model
@@ -19,32 +22,44 @@ class BaseRepository:
 
         return obj
 
-    def get_all(self, filtros: dict[str, str], options: list = None):
+    def get_all(self, filtros: Optional[dict[str, Any]] = None, options: Optional[list] = None):
+
         stmt = select(self.model)
+
         if options:
             for opt in options:
                 stmt = stmt.options(opt)
 
-        # VERIFICA SE TEM ORDENACAO
-        order_by = filtros.get("order")
+        if filtros:
+            # VERIFICA SE TEM ORDENACAO
+            order_by = filtros.get("order")
 
-        if order_by and hasattr(self.model, order_by):
-            stmt = stmt.order_by(getattr(self.model, order_by))
+            if order_by and hasattr(self.model, str(order_by)):
+                stmt = stmt.order_by(getattr(self.model, str(order_by)))
 
-        # VERIFICA SE TEM LIMIT
-        limit = filtros.get("limit")
-        if limit:
-            stmt = stmt.limit(int(limit))
+            # VERIFICA SE TEM LIMIT
+            limit = filtros.get("limit")
+            if limit:
+                stmt = stmt.limit(int(str(limit)))
+
+            stmt = self.processa_filtro(stmt, filtros)
 
         result = self.session.execute(stmt)
         return result.scalars().all()
 
-    def get_by_id(self, obj_id: int, options: list = None):
+    def processa_filtro(self, stmt: Select, filtros: dict[str, str]):
+        return stmt
+
+    def get_by_id(self, obj_id: int, options: Optional[list] = None):
+
         stmt = select(self.model).where(self.model.id == obj_id)
+
         if options:
             for opt in options:
                 stmt = stmt.options(opt)
+
         result = self.session.execute(stmt)
+
         return result.scalars().first()
 
     def update(self, obj_id: int, data):
