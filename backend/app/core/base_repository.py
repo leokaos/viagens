@@ -1,7 +1,7 @@
 from typing import Optional, Any
 
-from sqlalchemy.orm import Session
 from sqlalchemy import select, Select
+from sqlalchemy.orm import Session
 
 
 class BaseRepository:
@@ -33,21 +33,42 @@ class BaseRepository:
         if filtros:
             # VERIFICA SE TEM ORDENACAO
             order_by = filtros.get("order")
-
-            if order_by and hasattr(self.model, str(order_by)):
-                stmt = stmt.order_by(getattr(self.model, str(order_by)))
+            if order_by:
+                stmt = self.processa_order(stmt, str(order_by))
 
             # VERIFICA SE TEM LIMIT
             limit = filtros.get("limit")
             if limit:
                 stmt = stmt.limit(int(str(limit)))
 
+            # VERIFICA SE TEM LIMIT
             stmt = self.processa_filtro(stmt, filtros)
+
+            stmt = stmt.distinct()
 
         result = self.session.execute(stmt)
         return result.scalars().all()
 
-    def processa_filtro(self, stmt: Select, filtros: dict[str, str]):
+    def processa_filtro(self, stmt: Select, filtros: dict[str, str]) -> Select:
+
+        if filtros:
+            for i in filtros.items():
+                chave, valor = i
+                if hasattr(self.model, chave):
+                    stmt = stmt.where(getattr(self.model, chave) == valor)
+
+        return stmt
+
+    def processa_order(self, stmt: Select, order_by: str) -> Select:
+
+        order = order_by.split()
+
+        if hasattr(self.model, order[0]):
+            if order[1] == 'asc':
+                stmt = stmt.order_by(getattr(self.model, order[0]).asc())
+            elif order[1] == 'desc':
+                stmt = stmt.order_by(getattr(self.model, order[0]).desc())
+
         return stmt
 
     def get_by_id(self, obj_id: int, options: Optional[list] = None):

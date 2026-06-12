@@ -1,6 +1,6 @@
 from http.client import HTTPException
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, HTTPException, Depends
 
 from app.core.exceptions import EntityNotFoundError
 from app.core.postgres import get_session
@@ -26,7 +26,7 @@ def get_viagem_service(session=Depends(get_session)):
 @router.get("/", response_model=list[GastoSchema])
 def list_gastos(viagem_id: int, gasto_service: GastoService = Depends(get_gasto_service), viagem_service: ViagemService = Depends(get_viagem_service)):
     try:
-        viagem = viagem_service.get_viagem(viagem_id)
+        viagem = viagem_service.get_by_id(viagem_id)
         return gasto_service.list_gastos_by_viagem(viagem)
     except EntityNotFoundError as e:
         raise HTTPException(status_code=404, detail=str(e))

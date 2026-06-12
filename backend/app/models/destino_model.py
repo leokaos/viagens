@@ -18,5 +18,6 @@ class DestinoModel(Base):
     id = Column(Integer, primary_key=True)
     nome = Column(String(200), nullable=False)
     descricao = Column(Text)
+    pais = Column(String(2), nullable=False)
 
     tags = relationship("TagModel", secondary=destino_tags, back_populates="destinos")

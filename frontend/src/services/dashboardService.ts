@@ -2,11 +2,7 @@ const BASE_URL = 'http://localhost:8000';
 
 export interface QuickStatus {
     type: 'nextTrip' | 'budget' | 'visitedCountries';
-    label: string;
-    value: string;
-    status: string;
-    color?: string;
-    subtext?: string;
+    [key: string]: any;
 }
 
 class DashboardService {
@@ -14,7 +10,7 @@ class DashboardService {
     protected path: string = 'dashboard';
 
     async getQuickStatus(): Promise<QuickStatus[]> {
-        const response = await fetch(`${BASE_URL}/${this.path}`);
+        const response = await fetch(`${BASE_URL}/${this.path}/status`);
 
         if (!response.ok) {
             throw new Error('ERRO!');

@@ -13,6 +13,6 @@ def get_dashboard_service(session=Depends(get_session)):
     return DashboardService(repo)
 
 
-@router.get("/", response_model=list[QuickStatusSchema])
+@router.get("/status", response_model=list[QuickStatusSchema])
 def get_all_quick_status(service: DashboardService = Depends(get_dashboard_service)):
     return [service.get_next_trip(), service.get_budget_status(), service.get_visited_coutries()]

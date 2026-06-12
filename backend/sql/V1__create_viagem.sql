@@ -20,6 +20,7 @@ CREATE TABLE destino
 (
     id        SERIAL PRIMARY KEY,
     nome      VARCHAR(200) NOT NULL,
+    pais      varchar(2)   NOT NULL,
     descricao TEXT
 );
 

@@ -1,6 +1,7 @@
+from datetime import date
+
 from app.repository.dashboard_repository import DashboardRepository
 from app.schemas.dashboard_schema import QuickStatusSchema
-from datetime import date
 
 
 class DashboardService:
@@ -11,24 +12,27 @@ class DashboardService:
     def get_next_trip(self):
         proxima_viagem = self.repository.get_proxima_viagem()
 
-        value = ""
-        label = "NO UPCOMING TRIPS"
+        local = "SEM VIAGENS"
+        dias = 0
 
         if proxima_viagem:
-            value = str((proxima_viagem.data_inicio - date.today()).days)
-            label = proxima_viagem.descricao.upper()
+            dias = (proxima_viagem.data_inicio - date.today()).days
+            local = proxima_viagem.descricao.upper()
 
-        return QuickStatusSchema(type="nextTrip", label=label, value=value)
+        data = {"type": "nextTrip", "local": local, "dias": dias}
+
+        return QuickStatusSchema(**data)
 
     def get_budget_status(self):
         total_orcamento, total_gastos = self.repository.get_totais_budget()
 
-        value = f"${total_gastos:,.0f}"
-        subtext = f"${total_orcamento:,.0f}"
-        status = ("DENTRO DO ORÇAMENTO" if total_gastos <= total_orcamento else "EXCEDIDO")
-        color = ("bg-green-500" if total_gastos <= total_orcamento else "bg-red-500")
+        data = {"type": "budget", "total": total_orcamento, "gasto": total_gastos}
 
-        return QuickStatusSchema(type="budget", label="TOTAL USADO", value=value, status=status, color=color, subtext=subtext)
+        return QuickStatusSchema(**data)
 
     def get_visited_coutries(self):
-        return QuickStatusSchema(type="visitedCountries", label="COUNTRIES VISITED", value="14", status="EXPLORER", color="bg-orange-500")
+        paises = self.repository.get_numero_paises_viajados()
+
+        data = {"type": "visitedCountries", "paises": paises}
+
+        return QuickStatusSchema(**data)

@@ -4,7 +4,7 @@ import { useFetch, type StateData } from './useFetch';
 const useFetchProximaViagem = (): StateData<Viagem> => {
 
     return useFetch(() =>
-        viagemService.getAll({ data_inicio: new Date().toUTCString() }, 'data_inicio', 1).then(data => data[0] ?? null)
+        viagemService.getAll({ data_inicio: new Date().toUTCString() }, 'data_inicio asc', 1).then(data => data[0] ?? null)
     );
 };
 

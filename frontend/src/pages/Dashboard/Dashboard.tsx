@@ -58,7 +58,7 @@ const Dashboard = () => {
                         <Button label="View all trips" icon="pi pi-chevron-right" iconPos="right" className="p-button-text text-[#2563eb] font-bold p-0" />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {tresUltimasViagens.data?.map(viagem => <TripCard viagem={viagem} />)}
+                        {tresUltimasViagens.data?.map(viagem => <TripCard key={viagem.id} viagem={viagem} />)}
                     </div>
                 </div>
             </div>

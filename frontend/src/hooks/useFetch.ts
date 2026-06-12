@@ -6,7 +6,7 @@ export interface StateData<T> {
     error: string | null;
 }
 
-export function useFetch<T>(fetchFn: () => Promise<T>): StateData<T> {
+export function useFetch<T>(fetchFn: () => Promise<T>, deps: any[] = []): StateData<T> {
 
     const [data, setData] = useState<T | null>(null);
     const [loading, setLoading] = useState(true);
@@ -14,9 +14,10 @@ export function useFetch<T>(fetchFn: () => Promise<T>): StateData<T> {
 
     useEffect(() => {
 
+        setLoading(true);
+
         const load = async () => {
             try {
-                setLoading(true);
                 const result = await fetchFn();
                 setData(result);
                 setError(null);
@@ -28,7 +29,8 @@ export function useFetch<T>(fetchFn: () => Promise<T>): StateData<T> {
         };
 
         load();
-    }, []);
+
+    }, deps);
 
     return { data, loading, error, };
 }

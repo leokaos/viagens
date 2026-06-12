@@ -13,9 +13,9 @@ const NextTripStatus = ({ stat }: { stat: QuickStatus }) => {
                 <Badge value="PRÓXIMA PARADA" className='bg-[#ffe082] text-[#261900]' />
             </div>
             <div className="text-5xl font-black text-[#1a1c1e] mb-2 tracking-tight">
-                {stat.value}
+                {stat.dias}
             </div>
-            <div className="text-xs font-black text-[#74777f] uppercase tracking-[0.2em]">{stat.label}</div>
+            <div className="text-xs font-black text-[#74777f] uppercase tracking-[0.2em]">DIAS ATÉ {stat.local}</div>
         </Card>
     )
 };
