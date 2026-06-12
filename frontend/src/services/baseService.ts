@@ -13,7 +13,7 @@ export abstract class BaseService<T> {
     }
 
     async getAll(filters: Record<string, any> = {}, order?: string, limit?: number): Promise<T[]> {
-        const url = new URL(this.getFullUrl());
+        const url = new URL(this.getFullUrl('/'));
 
         Object.entries(filters).forEach(([key, value]) => {
             if (value !== undefined && value !== null) {
