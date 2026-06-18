@@ -1,10 +1,10 @@
 import { Outlet } from 'react-router-dom';
-import Menu from '../../layout/Menu/Menu';
-import Header from '../../layout/Header/Header';
-import useFetchCurrentUser from '../../hooks/useFetchCurrentUser';
-import { UserProvider } from '../../context/UserContext';
-import useFetchItemMenu from '../../hooks/useFetchItemMenu';
-import PageLoader from '../../components/PageLoader/PageLoader';
+import Menu from '@layout/Menu/Menu';
+import Header from '@layout/Header/Header';
+import useFetchCurrentUser from '@hooks/useFetchCurrentUser';
+import { UserProvider } from '@context/UserContext';
+import useFetchItemMenu from '@hooks/useFetchItemMenu';
+import PageLoader from '@components/PageLoader/PageLoader';
 
 
 const PaginaPadrao = () => {
@@ -34,7 +34,7 @@ const PaginaPadrao = () => {
                         <Header />
                     </header>
 
-                    <div className="p-8 max-w-7xl mx-auto w-full">
+                    <div className="max-w-7xl mx-auto w-full p-8">
                         <Outlet />
                     </div>
 

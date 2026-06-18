@@ -1,12 +1,13 @@
-import Loader from "@/components/Loader/Loader";
-import TripCard from "@/components/TripCard/TripCard";
-import { useContextUser } from "@/context/UserContext";
-import useFetchAllViagens from "@/hooks/useFetchAllViagens";
+import Loader from "@components/Loader/Loader";
+import TripCard from "@components/TripCard/TripCard";
+import { useContextUser } from "@context/UserContext";
+import useFetchAllViagens from "@hooks/useFetchAllViagens";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { useState } from "react";
 import { Dropdown } from "primereact/dropdown";
-import NoEntriesBlock from "@/components/NoEntriesBlock/NoEntriesBlock";
+import NoEntriesBlock from "@components/NoEntriesBlock/NoEntriesBlock";
+import { Link } from "react-router-dom";
 
 const Trips = () => {
 
@@ -42,10 +43,9 @@ const Trips = () => {
                     <h2 className="text-4xl font-bold text-[#1a1c1e]">All Trips</h2>
                     <p className="text-[#44474e] text-lg mt-1">Manage and view all your travel adventures</p>
                 </div>
-                <Button
-                    label="Create New Trip"
-                    icon="pi pi-plus-circle"
-                    className="p-button-primary p-button-outlined border-2 text-[#2563eb] border-[#2563eb] hover:bg-[#eff4ff] rounded-xl px-6 h-12 font-bold" />
+                <Link to='/trip'>
+                    <Button label="Create New Trip" icon="pi pi-plus-circle" outlined />
+                </Link>
             </div>
 
             <div className="flex gap-4 items-center bg-white p-4 rounded-xl shadow-sm mb-8">
@@ -82,7 +82,9 @@ const Trips = () => {
                             (<NoEntriesBlock icon="pi pi-map-marker" message="No trips found" />) :
                             (
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                    {data?.map(viagem => (<TripCard key={viagem.id} viagem={viagem} />))}
+                                    {data?.map(viagem => (
+                                        <TripCard key={viagem.id} viagem={viagem} />
+                                    ))}
                                 </div>
                             )}
                     </>
