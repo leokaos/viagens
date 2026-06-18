@@ -22,6 +22,7 @@ export function useFetch<T>(fetchFn: () => Promise<T>, deps: any[] = []): StateD
                 setData(result);
                 setError(null);
             } catch (err) {
+                console.info(err)
                 setError(err instanceof Error ? err.message : 'Erro desconhecido');
             } finally {
                 setLoading(false);

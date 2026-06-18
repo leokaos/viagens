@@ -1,11 +1,14 @@
-import type { Viagem } from "@/services/viagemService";
 import { format } from "date-fns";
+import { ptBR } from 'date-fns/locale';
 import { Badge } from "primereact/badge";
 import { Card } from "primereact/card";
 import { ProgressBar } from "primereact/progressbar";
-import { ptBR } from 'date-fns/locale';
+import { useNavigate } from "react-router-dom";
+import type { Viagem } from "../../models/viagem.model";
 
 const TripCard = ({ viagem }: { viagem: Viagem }) => {
+
+    const navigate = useNavigate();
 
     const statusClasses: Record<Viagem['status'], string> = {
         PLANNING: 'bg-blue-100 text-blue-900',
@@ -17,9 +20,17 @@ const TripCard = ({ viagem }: { viagem: Viagem }) => {
     const totalGastos = viagem.gastos?.reduce((sum, gasto) => sum + gasto.valor, 0) || 0;
     const percentGastos = totalGastos / viagem.orcamento;
 
+    const handleCardClick = (id: number) => {
+        navigate(`/trip/${id}`);
+    };
+
     return (
-        <Card key={viagem.id} className="overflow-hidden border-none shadow-lg p-0 bg-white rounded-3xl group cursor-pointer">
+        <Card
+            key={viagem.id}
+            onClick={() => handleCardClick(viagem.id)}
+            className="overflow-hidden border-none shadow-lg p-0 bg-white rounded-3xl group cursor-pointer">
             <div className="relative h-56 overflow-hidden">
+
                 <img src={viagem.imagem} alt={viagem.descricao} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                 <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-xl text-xs font-black shadow-sm">
                     {format(viagem.data_inicio, "dd 'de' MMM", { locale: ptBR })} - {format(viagem.data_fim, "dd 'de' MMM", { locale: ptBR })}

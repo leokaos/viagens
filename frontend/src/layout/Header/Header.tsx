@@ -17,7 +17,6 @@ const Header = () => {
             <div className="flex items-center gap-6">
                 <div className="flex items-center gap-4 text-[#44474e]">
                     <i className="pi pi-bell text-xl cursor-pointer hover:text-[#2563eb] transition-colors" />
-                    <i className="pi pi-cog text-xl cursor-pointer hover:text-[#2563eb] transition-colors" />
                     {
                         user && <Avatar image={user.avatar} shape="circle" size="large" />
                     }

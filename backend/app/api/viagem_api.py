@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Request, Body
 
 from app.core import base_api
 from app.core.postgres import get_session
@@ -37,3 +37,8 @@ def update_viagem(viagem_id: int, viagem: ViagemSchema, service: ViagemService =
 @router.delete("/{viagem_id}", status_code=204)
 def delete_viagem(viagem_id: int, service: ViagemService = Depends(get_service)):
     base_api.delete(viagem_id, service)
+
+
+@router.post("/{viagem_id}/foto")
+def adiciona_foto(viagem_id: int, foto_bytes: bytes = Body(...), service: ViagemService = Depends(get_service)):
+    return service.adiciona_foto(viagem_id, foto_bytes)

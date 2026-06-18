@@ -3,9 +3,13 @@ const BASE_URL = 'http://localhost:8000';
 export abstract class BaseService<T> {
 
     protected path: string;
+    protected serialize: (data: any) => T;
+    protected deserialize: (data: T) => any;
 
-    constructor(path: string) {
+    constructor(path: string, serialize?: (data: any) => T, deserialize?: (data: T) => any) {
         this.path = path;
+        this.serialize = serialize || ((data: any) => data as T);
+        this.deserialize = deserialize || ((data: T) => data);
     }
 
     protected getFullUrl(endpoint: string = ''): string {
@@ -78,11 +82,4 @@ export abstract class BaseService<T> {
         return response.json();
     }
 
-    protected serialize(data: any): T {
-        return data as T;
-    }
-
-    protected deserialize(data: T): any {
-        return data;
-    }
 }

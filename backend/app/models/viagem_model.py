@@ -35,3 +35,4 @@ class ViagemModel(Base):
 
     destinos = relationship("DestinoModel", secondary=destino_viagens)
     gastos = relationship("GastoModel", back_populates="viagem")
+    dias = relationship("DiaViagemModel", back_populates="viagem")

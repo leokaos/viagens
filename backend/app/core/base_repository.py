@@ -93,6 +93,8 @@ class BaseRepository:
             return None
 
         for key, value in data.items():
+            if isinstance(value, dict):
+                continue
             setattr(obj, key, value)
 
         self.session.commit()

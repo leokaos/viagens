@@ -1,4 +1,4 @@
-CREATE TABLE usuario
+CREATE TABLE IF NOT EXISTS usuario
 (
     id     SERIAL PRIMARY KEY,
     nome   VARCHAR(100) NOT NULL,
@@ -6,7 +6,7 @@ CREATE TABLE usuario
     avatar TEXT
 );
 
-CREATE TABLE item_menu
+CREATE TABLE IF NOT EXISTS item_menu
 (
     id          SERIAL PRIMARY KEY,
     nome        VARCHAR(100) NOT NULL,
@@ -15,8 +15,8 @@ CREATE TABLE item_menu
     order       INTEGER      NOT NULL UNIQUE
 );
 
-insert into item_menu(codigo_acao, nome, icone)
-values ('/', 'Dashboard', 'pi pi-th-large', 1),
-       ('/trips', 'My Trips', 'pi pi-map', 2),
-       ('/checklists', 'Checklists', 'pi pi-list', 3),
-       ('/settings', 'Settings', 'pi pi-cog', 4);
+--insert into item_menu(codigo_acao, nome, icone)
+--values ('/', 'Dashboard', 'pi pi-th-large', 1),
+--       ('/trips', 'My Trips', 'pi pi-map', 2),
+--       ('/checklists', 'Checklists', 'pi pi-list', 3),
+--       ('/settings', 'Settings', 'pi pi-cog', 4);

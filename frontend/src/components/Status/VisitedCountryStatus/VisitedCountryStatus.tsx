@@ -1,6 +1,6 @@
-import type { QuickStatus } from "@/services/dashboardService";
 import { Badge } from "primereact/badge";
 import { Card } from "primereact/card";
+import type { QuickStatus } from "@models/dashboard.model";
 
 const VisitedCountryStatus = ({ stat }: { stat: QuickStatus }) => {
 

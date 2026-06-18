@@ -1,9 +1,6 @@
-const BASE_URL = 'http://localhost:8000';
+import type { QuickStatus } from "../models/dashboard.model";
 
-export interface QuickStatus {
-    type: 'nextTrip' | 'budget' | 'visitedCountries';
-    [key: string]: any;
-}
+const BASE_URL = 'http://localhost:8000';
 
 class DashboardService {
 
