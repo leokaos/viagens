@@ -9,7 +9,7 @@ from app.schemas.gasto_schema import GastoSchema
 
 
 class ViagemSchema(BaseModel):
-    id: int
+    id: int | None
     data_inicio: date
     data_fim: date
     orcamento: float

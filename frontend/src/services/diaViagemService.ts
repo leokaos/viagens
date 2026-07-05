@@ -15,8 +15,7 @@ export default new DiaViagemService();
 export function diaViagemSerialize(data: any): DiaViagem {
     return {
         ...data,
-        data_inicio: parseISO(data.data_inicio),
-        data_fim: parseISO(data.data_fim),
+        data_dia: parseISO(data.data_dia),
     };
 }
 

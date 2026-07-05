@@ -1,8 +1,8 @@
 import { Avatar } from "primereact/avatar"
 import { Button } from "primereact/button"
 import { Link, useLocation } from "react-router-dom";
-import { useContextUser } from "../../context/UserContext";
-import type { ItemMenu } from "../../services/itemMenuService";
+import { useContextUser } from "../../context/UserContext"; 
+import type { ItemMenu } from "@models/menu.model";
 
 const Menu = ({ itens }: { itens: ItemMenu[] }) => {
 
@@ -37,7 +37,7 @@ const Menu = ({ itens }: { itens: ItemMenu[] }) => {
             <div className="p-4 border-t border-[#cbdbf5] mt-auto">
                 <div className="flex items-center gap-3 px-2 py-3">
                     {
-                        user && <Avatar image={user.avatar} shape="circle" size="large" />
+                        user && <Avatar image={`data:image/jpeg;base64,${user.avatar}`} shape="circle" size="large" />
                     }
                     {
                         user &&

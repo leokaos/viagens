@@ -75,7 +75,7 @@ export abstract class BaseService<T> {
         }
     }
 
-    private async handleResponse<U>(response: Response): Promise<U> {
+    protected async handleResponse<U>(response: Response): Promise<U> {
         if (!response.ok) {
             throw new Error('ERRO!');
         }

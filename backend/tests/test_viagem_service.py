@@ -1,48 +1,50 @@
+from datetime import datetime
+from unittest.mock import Mock, patch
+
 import pytest
-from app.services.viagem_service import ViagemService, ViagemNotFoundError
-from app.schemas.viagem_schema import Viagem
-from datetime import date
+
+from app.core.exceptions import ValidationError
+from app.models.viagem_model import StatusViagem
+from app.schemas.viagem_schema import ViagemSchema
+from app.services.viagem_service import ViagemService
+
+mock_repository = Mock()
+service = ViagemService(mock_repository)
 
 
-class TestViagemService:
+def test_should_raise_an_exception_due_date_before_today():
+    viagem = create_default_viagem()
 
-    def setup_method(self):
-        self.service = ViagemService()
-        from app.services import viagem_service
+    with pytest.raises(ValidationError) as exc:
+        service.create(viagem)
 
-        viagem_service.viagens_db = []
+    assert str(exc.value) == "Data de inicio deve ser depois de hoje!"
 
-    def test_create_viagem(self):
-        viagem = Viagem(destino="Paris", data_inicio=date(2025, 6, 1), data_fim=date(2025, 6, 10), orcamento=5000.0)
 
-        result = self.service.create_viagem(viagem)
+def test_should_save_an_image_with_success():
+    viagem = create_default_viagem()
 
-        assert result["id"] == 1
-        assert result["destino"] == "Paris"
+    with patch('app.services.viagem_service.create_imagem_and_save') as mock_create:
+        with patch('app.services.viagem_service.settings') as mock_settings:
+            mock_settings.BASE_URL = 'https://teste.com/'
 
-    def test_list_viagens_empty(self):
-        result = self.service.list_viagens()
-        assert result == []
+            mock_repository.update.return_value = True
+            service.get_by_id = Mock(return_value=viagem)
 
-    def test_get_viagem_not_found(self):
-        with pytest.raises(ViagemNotFoundError):
-            self.service.get_viagem(999)
+            service.adiciona_foto(1, b'foto_bytes')
 
-    def test_update_viagem(self):
-        viagem = Viagem(destino="London", data_inicio=date(2025, 7, 1), data_fim=date(2025, 7, 5), orcamento=3000.0)
-        created = self.service.create_viagem(viagem)
+            mock_create.assert_called_once_with(b'foto_bytes', 'foto_capa1.jpg')
+            mock_repository.update.assert_called_once_with(1, {'imagem': 'https://teste.com/foto_capa1.jpg'})
 
-        updated_viagem = Viagem(destino="Londres", data_inicio=date(2025, 7, 1), data_fim=date(2025, 7, 5), orcamento=3500.0)
-        result = self.service.update_viagem(created["id"], updated_viagem)
 
-        assert result["destino"] == "Londres"
-        assert result["orcamento"] == 3500.0
-
-    def test_delete_viagem(self):
-        viagem = Viagem(destino="Berlin", data_inicio=date(2025, 8, 1), data_fim=date(2025, 8, 10), orcamento=4000.0)
-        created = self.service.create_viagem(viagem)
-
-        self.service.delete_viagem(created["id"])
-
-        with pytest.raises(ViagemNotFoundError):
-            self.service.get_viagem(created["id"])
+def create_default_viagem():
+    return ViagemSchema(
+        id=None,
+        data_inicio=datetime(2025, 1, 1),
+        data_fim=datetime(2025, 1, 10),
+        orcamento=1000.00,
+        observacao=None,
+        status=StatusViagem.PLANNING,
+        descricao="Viagem de teste",
+        imagem="teste.jpg"
+    )

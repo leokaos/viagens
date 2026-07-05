@@ -24,8 +24,11 @@ class BaseService:
 
         return [self.schema.model_validate(obj) for obj in db_objs]
 
-    def create(self, destino):
-        db_obj = self.repository.create(destino.model_dump())
+    def create(self, model):
+
+        self.pre_create(model)
+
+        db_obj = self.repository.create(model.model_dump())
 
         return self.schema.model_validate(db_obj)
 
@@ -40,3 +43,6 @@ class BaseService:
     def delete(self, entity_id: int) -> None:
         if not self.repository.delete(entity_id):
             raise EntityNotFoundError(self.repository.model.__name__, entity_id)
+
+    def pre_create(self, model):
+        pass

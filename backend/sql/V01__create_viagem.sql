@@ -64,11 +64,9 @@ CREATE TABLE gasto
 
 create table dia_viagem
 (
-    id          SERIAL PRIMARY KEY,
-    data_inicio TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    data_fim    TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    valor       NUMERIC(10, 2) NOT NULL,
-    viagem_id   INTEGER        NOT NULL,
+    id        SERIAL PRIMARY KEY,
+    data_dia  DATE    NOT NULL,
+    viagem_id INTEGER NOT NULL,
     CONSTRAINT fk_viagem FOREIGN KEY (viagem_id) REFERENCES viagem (id) ON DELETE CASCADE
 );
 
@@ -81,8 +79,11 @@ create table atividade
 
 CREATE TABLE dia_viagem_atividade
 (
-    atividade_id  INTEGER NOT NULL,
-    dia_viagem_id INTEGER NOT NULL,
+    atividade_id  INTEGER        NOT NULL,
+    dia_viagem_id INTEGER        NOT NULL,
+    data_inicio   TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    data_fim      TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    custo         numeric(10, 2) NOT NULL,
     PRIMARY KEY (atividade_id, dia_viagem_id),
     FOREIGN KEY (atividade_id) REFERENCES atividade (id),
     FOREIGN KEY (dia_viagem_id) REFERENCES dia_viagem (id)

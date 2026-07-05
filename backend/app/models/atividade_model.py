@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Text
+from sqlalchemy import Column, Integer, Text, NUMERIC
 
 from app.core.postgres import Base
 
@@ -8,3 +8,4 @@ class AtividadeModel(Base):
 
     id = Column(Integer, primary_key=True)
     descricao = Column(Text, nullable=False)
+    custo = Column(NUMERIC, nullable=False)
